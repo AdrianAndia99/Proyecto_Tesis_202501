@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Rendering;
 
 public class Transcitions : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Transcitions : MonoBehaviour
     [SerializeField] GameObject introduction;
     [SerializeField] GameObject finalCanvas;
     [SerializeField] GameObject initCanvas;
+    [SerializeField] GameObject tempCanvas;
 
     void Start()
     {
@@ -35,6 +37,10 @@ public class Transcitions : MonoBehaviour
     public void MoveFinal(GameObject canvasObjReference)
     {
         canvasObjReference.transform.DOMoveX(finalCanvas.transform.position.x, 0.4f);
+    }
+    public void MoveTemp(GameObject canvasObjReference)
+    {
+        canvasObjReference.transform.DOMoveX(tempCanvas.transform.position.x, 0.4f);
     }
 }
 

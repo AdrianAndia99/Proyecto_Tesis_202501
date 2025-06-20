@@ -16,7 +16,7 @@ public class GameManager : SingletonPersistent<GameManager>
         //databaseHandler = GetComponent<DatabaseHandler>();
         // print("name" + databaseHandler.GetName());
         // databaseHandler.CreateNewPlayer();
-        
+        Debug.Log(" ola ");
     }
     private void OnEnable()
     {
@@ -46,7 +46,7 @@ public class GameManager : SingletonPersistent<GameManager>
 
     public void PauseGame()
     {
-        if (!isGameRunning || isPaused) return;
+        //if (!isGameRunning || isPaused) return;
 
         isPaused = true;
         Time.timeScale = 0f;
