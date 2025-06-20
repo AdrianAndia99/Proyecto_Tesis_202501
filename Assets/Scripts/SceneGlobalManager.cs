@@ -9,9 +9,7 @@ public class SceneGlobalManager : SingletonPersistent<SceneGlobalManager>
    
     private void Start()
     {
-        LoaderScene("Menu");
-
-        Debug.Log("xd");
+        
     }
 
     public void LoadScene(string sceneName)

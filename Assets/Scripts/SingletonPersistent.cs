@@ -6,7 +6,7 @@ public class SingletonPersistent<T> : MonoBehaviour
     public static T Instance { get; private set; }
 
 
-    /*public virtual void Awake()
+    public virtual void Awake()
     {
         if (Instance == null)
         {
@@ -20,5 +20,5 @@ public class SingletonPersistent<T> : MonoBehaviour
         }
 
 
-    }*/
+    }
 }
