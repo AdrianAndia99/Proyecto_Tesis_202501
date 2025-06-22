@@ -4007,6 +4007,7 @@ MonoBehaviour:
   introduction: {fileID: 1726917571}
   finalCanvas: {fileID: 676141236}
   initCanvas: {fileID: 860812292}
+  tempCanvas: {fileID: 0}
 --- !u!4 &1614276435
 Transform:
   m_ObjectHideFlags: 0
