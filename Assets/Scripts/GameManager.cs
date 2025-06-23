@@ -2,6 +2,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : SingletonPersistent<GameManager>
 {
@@ -12,6 +13,7 @@ public class GameManager : SingletonPersistent<GameManager>
     //[SerializeField] GameData gameData;
 
     float time = 0;
+    [SerializeField] Toggle action;
     void Timer()
     {
         time += Time.deltaTime;
@@ -23,7 +25,7 @@ public class GameManager : SingletonPersistent<GameManager>
     }
     private void Update()
     {
-        
+        // to check .. action.isOn= true;
             Timer();
         
     }

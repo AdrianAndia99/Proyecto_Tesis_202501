@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System.Net;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,9 +9,10 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float velocityModifier = 5f;
     Vector2 direction;
     Vector2 look;
+    [SerializeField] string[] objectsToPick = { "medicine" };
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-
+    [SerializeField] LineRenderer lineRenderer;
 
     [SerializeField] private Transform cameraHolder; // el que rota en X (pitch)
     private float xRotation;
@@ -17,9 +20,13 @@ public class PlayerControl : MonoBehaviour
     private float targetYaw;
     private float yawSmoothVelocity;
 
-    [SerializeField] private float mouseSensitivity = 10f;
+    [SerializeField] private float mouseSensitivity =5f;
     [SerializeField] private float yawSmoothTime = 0.05f;
+    [SerializeField] LayerMask layer;
+    private bool holding = false;
 
+    GameObject pickedObject;
+    
     void Update()
     {
         // Mouse input
@@ -39,15 +46,30 @@ public class PlayerControl : MonoBehaviour
 
         Ray ray = new Ray(cameraHolder.position, cameraHolder.forward);
         RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 100f))
+        Vector3 endPoint;
+        if (Physics.Raycast(ray, out hit, 100f,layer))
         {
             Debug.DrawRay(cameraHolder.position, cameraHolder.forward * hit.distance, Color.red);
             Debug.Log("Raycast hit: " + hit.collider.name);
+            endPoint = hit.point;
         }
         else
         {
             Debug.DrawRay(cameraHolder.position, cameraHolder.forward * 15f, Color.green);
+            endPoint = cameraHolder.position + cameraHolder.forward * 15f;
+        }
+        lineRenderer.SetPosition(0, cameraHolder.position);
+        lineRenderer.SetPosition(1, endPoint);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        for (int i = 0; i < objectsToPick.Length; i++) 
+        { 
+            if(collision.gameObject.tag == objectsToPick[i] && pickedObject == null)
+            {
+                pickedObject = collision.gameObject;
+                //set parent to move acording to other object in raycast
+            }
         }
     }
     public void OnMovement(InputAction.CallbackContext move)
@@ -55,6 +77,26 @@ public class PlayerControl : MonoBehaviour
         direction = move.ReadValue<Vector2>();
 
 
+    }
+    public void OnCrouch(InputAction.CallbackContext crouch)
+    {
+        if (crouch.started)
+        {
+            holding = true;
+        }
+        if (crouch.canceled)
+        {
+            holding = false;
+            Debug.Log("soltao");
+        }
+        if(holding == true) 
+        { 
+            cameraHolder.transform.position = new Vector3(cameraHolder.transform.position.x, 1.5f, cameraHolder.transform.position.z);
+        }
+        else
+        {
+            cameraHolder.transform.position = new Vector3(cameraHolder.transform.position.x, 2.5f, cameraHolder.transform.position.z);
+        }
     }
     public void FixedUpdate()
     {
