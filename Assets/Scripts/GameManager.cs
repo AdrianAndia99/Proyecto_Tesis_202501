@@ -8,9 +8,25 @@ public class GameManager : SingletonPersistent<GameManager>
     
     private bool isGameRunning = false;
     private bool isPaused = false;
+    [SerializeField] TextMeshProUGUI timeText;
     //[SerializeField] GameData gameData;
- 
 
+    float time = 0;
+    void Timer()
+    {
+        time += Time.deltaTime;
+
+        int minutes = Mathf.FloorToInt(time / 60f);
+        int seconds = Mathf.FloorToInt(time % 60f);
+        timeText.text = minutes.ToString("00") + ":" + seconds.ToString("00");
+
+    }
+    private void Update()
+    {
+        
+            Timer();
+        
+    }
     private void Start()
     {
         //databaseHandler = GetComponent<DatabaseHandler>();
@@ -55,7 +71,7 @@ public class GameManager : SingletonPersistent<GameManager>
 
     public void ResumeGame()
     {
-        if (!isGameRunning || !isPaused) return;
+       
 
         isPaused = false;
         Time.timeScale = 1f;
