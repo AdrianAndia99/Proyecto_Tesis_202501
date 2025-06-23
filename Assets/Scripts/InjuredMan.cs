@@ -13,7 +13,7 @@ public class InjuredMan : MonoBehaviour
         transform.DOMoveY(0.32f,3);
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         

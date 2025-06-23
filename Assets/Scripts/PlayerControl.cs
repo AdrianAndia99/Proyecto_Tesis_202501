@@ -23,10 +23,12 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float mouseSensitivity =5f;
     [SerializeField] private float yawSmoothTime = 0.05f;
     [SerializeField] LayerMask layer;
-    private bool holding = false;
+    private bool holdingCrouch = false;
 
-    GameObject pickedObject;
-    
+    [SerializeField] GameObject pickedObject;
+    [SerializeField] GameObject selectedObject;
+
+    bool isSelected;
     void Update()
     {
         // Mouse input
@@ -46,17 +48,32 @@ public class PlayerControl : MonoBehaviour
 
         Ray ray = new Ray(cameraHolder.position, cameraHolder.forward);
         RaycastHit hit;
-        Vector3 endPoint;
+        Vector3 endPoint;//convert main variable
+
         if (Physics.Raycast(ray, out hit, 100f,layer))
         {
             Debug.DrawRay(cameraHolder.position, cameraHolder.forward * hit.distance, Color.red);
             Debug.Log("Raycast hit: " + hit.collider.name);
             endPoint = hit.point;
+
+            pickedObject.transform.position = endPoint;
+            if(isSelected == false)
+            {
+                selectedObject = hit.collider.gameObject;
+                
+            }
+            if (selectedObject != null) 
+            {
+                isSelected = true;
+            }
+           
         }
         else
         {
             Debug.DrawRay(cameraHolder.position, cameraHolder.forward * 15f, Color.green);
             endPoint = cameraHolder.position + cameraHolder.forward * 15f;
+            isSelected = false;
+            //selectedObject = null;
         }
         lineRenderer.SetPosition(0, cameraHolder.position);
         lineRenderer.SetPosition(1, endPoint);
@@ -65,12 +82,43 @@ public class PlayerControl : MonoBehaviour
     {
         for (int i = 0; i < objectsToPick.Length; i++) 
         { 
-            if(collision.gameObject.tag == objectsToPick[i] && pickedObject == null)
+            //if(collision.gameObject.tag == objectsToPick[i] && pickedObject == null)
             {
-                pickedObject = collision.gameObject;
+                // pickedObject = collision.gameObject;
+               // collision.transform.SetParent(pickedObject.transform);
                 //set parent to move acording to other object in raycast
             }
         }
+    }
+    public void OnGrab(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Debug.Log(" performed");
+        }
+        if ( selectedObject != null && isSelected==true)
+        {
+            Debug.Log("a " +  selectedObject.name + "---" + isSelected ) ;
+           
+            selectedObject.transform.SetParent(pickedObject.transform);
+        }
+       // if (pickedObject != null) { 
+        // picked object set parent
+        
+    }
+    public void OnLeave(InputAction.CallbackContext context)
+    {
+        if (context.canceled)
+        {
+            Debug.Log(" cancelled");
+            selectedObject.transform.SetParent(null);
+        }
+       
+        //pickedObject
+    }
+    void GrabObject()
+    {
+
     }
     public void OnMovement(InputAction.CallbackContext move)
     {
@@ -82,14 +130,14 @@ public class PlayerControl : MonoBehaviour
     {
         if (crouch.started)
         {
-            holding = true;
+            holdingCrouch = true;
         }
         if (crouch.canceled)
         {
-            holding = false;
+            holdingCrouch = false;
             Debug.Log("soltao");
         }
-        if(holding == true) 
+        if(holdingCrouch == true) 
         { 
             cameraHolder.transform.position = new Vector3(cameraHolder.transform.position.x, 1.5f, cameraHolder.transform.position.z);
         }
