@@ -29,6 +29,28 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] GameObject selectedObject;
 
     bool isSelected;
+    Rigidbody rbpicked;
+
+
+   [SerializeField] GameRBEvent gameRBEventPick;
+   [SerializeField] GameRBEvent gameRBEventThrow;
+
+    private void Awake()
+    {
+        //rbpicked = pickedObject.GetComponent<Rigidbody>();
+
+    }
+
+    private void OnEnable()
+    {
+        Debug.Log("On OnEnable");
+    }
+
+    private void OnDisable()
+    {
+        Debug.Log("On Disable");
+    }
+
     void Update()
     {
         // Mouse input
@@ -56,7 +78,7 @@ public class PlayerControl : MonoBehaviour
             Debug.Log("Raycast hit: " + hit.collider.name);
             endPoint = hit.point;
 
-            pickedObject.transform.position = endPoint;
+            //pickedObject.transform.position = endPoint;
             if(isSelected == false)
             {
                 selectedObject = hit.collider.gameObject;
@@ -90,6 +112,18 @@ public class PlayerControl : MonoBehaviour
             }
         }
     }
+   public void OnObjectActive()
+    {
+       rbpicked= pickedObject.GetComponent<Rigidbody>();
+       rbpicked.isKinematic = true;
+
+    }
+    public void OnObjectThrow()
+    {
+       rbpicked = pickedObject.GetComponent<Rigidbody>();
+       rbpicked.isKinematic = false;
+
+    }
     public void OnGrab(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -100,7 +134,10 @@ public class PlayerControl : MonoBehaviour
         {
             Debug.Log("a " +  selectedObject.name + "---" + isSelected ) ;
            
-            selectedObject.transform.SetParent(pickedObject.transform);
+            selectedObject.transform.SetParent(cameraHolder.transform);
+            pickedObject = selectedObject;
+            gameRBEventPick.Raise(rbpicked);
+
         }
        // if (pickedObject != null) { 
         // picked object set parent
@@ -112,6 +149,8 @@ public class PlayerControl : MonoBehaviour
         {
             Debug.Log(" cancelled");
             selectedObject.transform.SetParent(null);
+            //gameRBEvent.Raise(rbpicked);
+            gameRBEventThrow.Raise(rbpicked);
         }
        
         //pickedObject
