@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Injury : MonoBehaviour
@@ -7,15 +8,34 @@ public class Injury : MonoBehaviour
         None,
         Bruise,
         Cut,
-        Fracture
+        Fracture,
+        Wrist,
+        Leg,
+        Arm,
     }
-   
 
-    public InjuryType tipo;
+    public static event Action OnCorrectCollider;
+    public InjuryType type;
     public int weight;
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (type ==InjuryType.Wrist && collision.gameObject.tag== "Wrist")
+        {
+            Debug.Log("Wrist");
+            OnCorrectCollider?.Invoke();
+        }
+        else if(type == InjuryType.Leg && collision.gameObject.tag == "Leg")
+        {
+            Debug.Log("Leg");
+        }
+        else if (type == InjuryType.Arm && collision.gameObject.tag == "Arm")
+        {
+            Debug.Log("Arm ");
+        }
+    }
     void Start()
     {
-        switch (tipo)
+        switch (type)
         {
             case InjuryType.Fracture:
                 Debug.Log("Esta es una fractura");
@@ -72,4 +92,5 @@ public class Injury : MonoBehaviour
     {
         
     }
+    
 }

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Medicines
+  - Arm
+  - Wrist
+  - Leg
   layers:
   - Default
   - TransparentFX

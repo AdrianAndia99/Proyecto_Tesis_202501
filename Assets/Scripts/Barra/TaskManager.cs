@@ -16,6 +16,7 @@ public class TaskManager : MonoBehaviour
     [SerializeField] private ProgressDataSO progressData;
     [SerializeField] private ProgressBarIndicator progressBarIndicator;
 
+
     void Awake()
     {
         finishButton.SetActive(false);
@@ -44,5 +45,18 @@ public class TaskManager : MonoBehaviour
             progressData.progress = progressBarIndicator.GetProgress();
         }
         SceneManager.LoadScene("Results");
+    }
+    private void OnEnable()
+    {
+        Injury.OnCorrectCollider += ValidateAction;
+    }
+    private void OnDisable()
+    {
+        Injury.OnCorrectCollider -= ValidateAction;
+    }
+    void ValidateAction()
+    {
+        toggle1.isOn = true;
+
     }
 }

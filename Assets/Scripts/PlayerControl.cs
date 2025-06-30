@@ -216,7 +216,7 @@ public class PlayerControl : MonoBehaviour
     public void OnLook(InputAction.CallbackContext context)
     {
         look = context.ReadValue<Vector2>();
-        //Debug.Log("Mouse look: " + look);
+
 
     }
 }
