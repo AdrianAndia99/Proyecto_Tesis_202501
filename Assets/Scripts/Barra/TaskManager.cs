@@ -18,12 +18,19 @@ public class TaskManager : MonoBehaviour
     {
         finishButton.SetActive(false);
     }
-
+    private void OnEnable()
+    {
+        Injury.OnCorrectCollider += ValidateAction;
+    }
+    private void OnDisable()
+    {
+        Injury.OnCorrectCollider -= ValidateAction;
+    }
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Alpha1)) toggles[0].isOn = true;
-        //if (Input.GetKeyDown(KeyCode.Alpha2)) toggles[1].isOn = true;
-        //if (Input.GetKeyDown(KeyCode.Alpha3)) toggles[2].isOn = true;
+        if (Input.GetKeyDown(KeyCode.Alpha1)) toggles[0].isOn = true;
+        if (Input.GetKeyDown(KeyCode.Alpha2)) toggles[1].isOn = true;
+        if (Input.GetKeyDown(KeyCode.Alpha3)) toggles[2].isOn = true;
 
         bool allOn = true;
         for (int i = 0; i < toggles.Length; i++)
@@ -41,18 +48,11 @@ public class TaskManager : MonoBehaviour
         }
         if (progressData != null && GameManager.Instance != null)
         {
-            progressData.time = GameManager.Instance.GetTime(); // Asegúrate de tener un método público que devuelva el tiempo
+            progressData.time = GameManager.Instance.GetTime();
         }
         SceneManager.LoadScene("Results");
     }
-    private void OnEnable()
-    {
-        Injury.OnCorrectCollider += ValidateAction;
-    }
-    private void OnDisable()
-    {
-        Injury.OnCorrectCollider -= ValidateAction;
-    }
+
     public void ValidateAction(Injury.InjuryType type, bool correct)
     {
         if (correct)
@@ -72,7 +72,6 @@ public class TaskManager : MonoBehaviour
         }
         else
         {
-            // Disminuir el progreso en 10%
             if (progressBarIndicator != null)
             {
                 progressBarIndicator.DecreaseProgress(0.1f);

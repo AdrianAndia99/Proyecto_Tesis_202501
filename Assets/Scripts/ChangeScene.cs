@@ -19,10 +19,6 @@ public class ChangeScene: MonoBehaviour
     { 
      SceneGlobalManager.Instance.LoadSceneAsync(nameScene);
     }
-    public void LoaderSceneAsync(string target)
-    {
-        SceneGlobalManager.Instance.LoaderScene(target);
-    }
     
     public void Exit()
     {

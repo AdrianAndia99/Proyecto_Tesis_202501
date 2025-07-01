@@ -15,12 +15,10 @@ public class Injury : MonoBehaviour
     }
     int typeNumb;
     public static event Action<InjuryType, bool> OnCorrectCollider;
-    public InjuryType type;
-    public int weight;
+    [SerializeField] private InjuryType type;
+    [SerializeField] private int weight;
     [Header("Layer esperado para colisión correcta")]
-    public int expectedLayer;
-    [Header("Material a modificar")]
-    public Material targetMaterial;
+    [SerializeField] private int expectedLayer;
     private void OnCollisionEnter(Collision collision)
     {
         bool correct = false;
@@ -29,14 +27,10 @@ public class Injury : MonoBehaviour
             Debug.Log($"{type} correcto en tag y layer");
             typeNumb = (int)type;
             correct = true;
-            if (targetMaterial != null)
-            {
-                targetMaterial.SetColor("_EmissionColor", Color.black);
-            }
         }
         OnCorrectCollider?.Invoke(type, correct);
     }
-    void Start()
+    /*void Start()
     {
         switch (type)
         {
@@ -53,7 +47,8 @@ public class Injury : MonoBehaviour
         }
         typeNumb = (int)InjuryType.Wrist;
         Debug.Log("typeNumb" +  typeNumb);
-    }
+    }*/
+
     /* private void OnTriggerEnter(Collider other)
      {
          if (tipo == TipoCaja.TipoA || tipo == TipoCaja.TipoB)
@@ -91,11 +86,5 @@ public class Injury : MonoBehaviour
          this.weight = weight;
 
      }
- */
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
+ */   
 }
