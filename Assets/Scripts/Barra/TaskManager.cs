@@ -15,7 +15,7 @@ public class TaskManager : MonoBehaviour
     [Header("Referencia al SO")]
     [SerializeField] private ProgressDataSO progressData;
     [SerializeField] private ProgressBarIndicator progressBarIndicator;
-
+    private Toggle[] actions;
 
     void Awake()
     {

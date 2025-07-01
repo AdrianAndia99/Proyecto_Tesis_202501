@@ -13,7 +13,7 @@ public class Injury : MonoBehaviour
         Leg,
         Arm,
     }
-
+    int typeNumb;
     public static event Action OnCorrectCollider;
     public InjuryType type;
     public int weight;
@@ -22,6 +22,7 @@ public class Injury : MonoBehaviour
         if (type ==InjuryType.Wrist && collision.gameObject.tag== "Wrist")
         {
             Debug.Log("Wrist");
+            typeNumb = (int)InjuryType.Wrist;
             OnCorrectCollider?.Invoke();
         }
         else if(type == InjuryType.Leg && collision.gameObject.tag == "Leg")
@@ -48,6 +49,8 @@ public class Injury : MonoBehaviour
                 break;
 
         }
+        typeNumb = (int)InjuryType.Wrist;
+        Debug.Log("typeNumb" +  typeNumb);
     }
     /* private void OnTriggerEnter(Collider other)
      {
