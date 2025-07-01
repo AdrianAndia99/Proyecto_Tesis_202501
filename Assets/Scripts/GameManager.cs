@@ -6,10 +6,11 @@ using UnityEngine.UI;
 
 public class GameManager : SingletonPersistent<GameManager>
 {
-    
+
     private bool isGameRunning = false;
     private bool isPaused = false;
     [SerializeField] TextMeshProUGUI timeText;
+    [SerializeField] private ProgressDataSO progressDataSO;
     //[SerializeField] GameData gameData;
 
     float time = 0;
@@ -26,8 +27,8 @@ public class GameManager : SingletonPersistent<GameManager>
     private void Update()
     {
         // to check .. action.isOn= true;
-            Timer();
-        
+        Timer();
+
     }
     private void Start()
     {
@@ -38,17 +39,17 @@ public class GameManager : SingletonPersistent<GameManager>
     }
     private void OnEnable()
     {
-       
+
     }
     private void OnDisable()
     {
-       
+
     }
     public void StartGame()
     {
         isGameRunning = true;
         isPaused = false;
-        Time.timeScale = 1f; 
+        Time.timeScale = 1f;
         Debug.Log("Game Started");
     }
 
@@ -57,9 +58,13 @@ public class GameManager : SingletonPersistent<GameManager>
     {
         isGameRunning = false;
         Time.timeScale = 1f;
+        if (progressDataSO != null)
+        {
+            progressDataSO.time = time; // Guarda el tiempo actual en el SO
+        }
         Debug.Log("Game Over");
-       // Debug.Log("Game Over. Score: " + playerFeesh.GetScore());
-       // databaseHandler.SaveScore(playerFeesh.GetScore());
+        // Debug.Log("Game Over. Score: " + playerFeesh.GetScore());
+        // databaseHandler.SaveScore(playerFeesh.GetScore());
     }
 
     public void PauseGame()
@@ -73,7 +78,7 @@ public class GameManager : SingletonPersistent<GameManager>
 
     public void ResumeGame()
     {
-       
+
 
         isPaused = false;
         Time.timeScale = 1f;
@@ -81,6 +86,7 @@ public class GameManager : SingletonPersistent<GameManager>
     }
 
     public bool IsPaused() => isPaused;
+    public float GetTime() => time;
 
 
 

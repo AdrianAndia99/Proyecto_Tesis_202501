@@ -4,4 +4,5 @@ using UnityEngine;
 public class ProgressDataSO : ScriptableObject
 {
     public float progress;
+    public float time;
 }

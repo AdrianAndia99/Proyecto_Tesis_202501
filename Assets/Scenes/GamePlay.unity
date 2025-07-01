@@ -2317,6 +2317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeText: {fileID: 1060526649}
+  progressDataSO: {fileID: 11400000, guid: 3e37032402f1b7241bdb74cb583eadec, type: 2}
   action: {fileID: 2023560536}
 --- !u!4 &872258658
 Transform:

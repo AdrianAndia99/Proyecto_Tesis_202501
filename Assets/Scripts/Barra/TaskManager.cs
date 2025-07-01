@@ -44,6 +44,11 @@ public class TaskManager : MonoBehaviour
         {
             progressData.progress = progressBarIndicator.GetProgress();
         }
+        if (progressData != null && GameManager.Instance != null)
+        {
+            progressData.time = GameManager.Instance.GetTime();
+        }
+        Debug.Log($"Progreso guardado: {progressData.progress}, Tiempo guardado: {progressData.time}");
         SceneManager.LoadScene("Results");
     }
     private void OnEnable()
