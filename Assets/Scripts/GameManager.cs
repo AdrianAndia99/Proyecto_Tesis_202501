@@ -14,7 +14,6 @@ public class GameManager : SingletonPersistent<GameManager>
     //[SerializeField] GameData gameData;
 
     float time = 0;
-    [SerializeField] Toggle action;
     void Timer()
     {
         time += Time.deltaTime;
@@ -87,7 +86,6 @@ public class GameManager : SingletonPersistent<GameManager>
 
     public bool IsPaused() => isPaused;
     public float GetTime() => time;
-
 
 
 }

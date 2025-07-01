@@ -14,25 +14,27 @@ public class Injury : MonoBehaviour
         Arm,
     }
     int typeNumb;
-    public static event Action OnCorrectCollider;
+    public static event Action<InjuryType, bool> OnCorrectCollider;
     public InjuryType type;
     public int weight;
+    [Header("Layer esperado para colisión correcta")]
+    public int expectedLayer;
+    [Header("Material a modificar")]
+    public Material targetMaterial;
     private void OnCollisionEnter(Collision collision)
     {
-        if (type ==InjuryType.Wrist && collision.gameObject.tag== "Wrist")
+        bool correct = false;
+        if (collision.gameObject.tag == type.ToString() && collision.gameObject.layer == (int)expectedLayer)
         {
-            Debug.Log("Wrist");
-            typeNumb = (int)InjuryType.Wrist;
-            OnCorrectCollider?.Invoke();
+            Debug.Log($"{type} correcto en tag y layer");
+            typeNumb = (int)type;
+            correct = true;
+            if (targetMaterial != null)
+            {
+                targetMaterial.SetColor("_EmissionColor", Color.black);
+            }
         }
-        else if(type == InjuryType.Leg && collision.gameObject.tag == "Leg")
-        {
-            Debug.Log("Leg");
-        }
-        else if (type == InjuryType.Arm && collision.gameObject.tag == "Arm")
-        {
-            Debug.Log("Arm ");
-        }
+        OnCorrectCollider?.Invoke(type, correct);
     }
     void Start()
     {

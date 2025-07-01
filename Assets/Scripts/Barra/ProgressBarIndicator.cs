@@ -55,4 +55,11 @@ public class ProgressBarIndicator : MonoBehaviour
         float displayPercent = Mathf.Round(progress * 1000f) / 10f;
         percentageText.text = displayPercent.ToString("F1") + "%";
     }
+
+    public void DecreaseProgress(float amount)
+    {
+        progress -= amount;
+        progress = Mathf.Clamp01(progress);
+        UpdateUI();
+    }
 }
